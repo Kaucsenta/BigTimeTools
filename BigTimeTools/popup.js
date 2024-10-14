@@ -121,7 +121,7 @@ function incrementReadyCount() {
     let readyCount = 0;
     let nextPickupCount = 0;
     document.querySelectorAll('tbody tr').forEach(row => {
-      const timeRemainingText = row.cells[1].textContent;
+      const timeRemainingText = row.cells[2].textContent;
       const [hours, minutes] = timeRemainingText.replace('-', '').split(':').map(n => parseInt(n, 10));
       const isNegative = timeRemainingText.startsWith('-');
       const timeRemaining = isNegative ? -(hours * 60 + minutes) : hours * 60 + minutes;
