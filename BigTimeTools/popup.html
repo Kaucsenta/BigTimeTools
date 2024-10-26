@@ -7,6 +7,7 @@
   <link rel="stylesheet" type="text/css" href="popup.css">
   <link rel="stylesheet" type="text/css" href="static/datatables/datatables.css">
   <script src="static/datatables/datatables.min.js"></script>
+  <script src="moment.min.js"></script>
   <link rel="icon" type="image/svg+xml" href="static/cog.svg">
   <script src="popup.js"></script>
   <script src="premium-currencies.js"></script>
@@ -88,9 +89,6 @@
           <br>
           <a href="https://bigtime.gg/" target="_blank">Big Time</a>
           <br>
-          <a href="https://www.youtube.com/@JeffLosaria" target="_blank">Jeff Losaria</a>
-          <br>
-          <a href="https://www.twitch.tv/whaledshark" target="_blank">whaleDshark </a>(explicit content)<br>
           <a href="https://evermorewardens.com/" target="_blank">Evermore Wardens</a>
           <br>
           <a href="https://dashloot.com/" target="_blank">Dash Loot</a>
@@ -111,7 +109,28 @@
       </div>
 
     </div>
+	<div id="linksWidget" class="widget">
+	<br>
+    <input id="today" type="datetime-local">
+	<div>
+	<div>
+	Hour:
+	<input type="number" name="enter" class="enter" id="Hour" value="0"/>
+	</div>
+	<div>
+	Minute:
+	<input type="number" name="enter" class="enter" id="Minute" value="0"/>
+	</div>
+	<br>
+	<button class="time-button">Add to Current time</button>
+	<br>
+	<br>
+	<input id="calculated" type="datetime-local">
 
+
+    </div>
+
+    </div>
     
 
   </div>

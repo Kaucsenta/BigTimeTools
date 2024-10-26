@@ -52,6 +52,25 @@ function Pickupdate(dateString, spawnInterval) {
   return `${date}`;
 }
 
+function calcualte_time()
+{
+	const field = document.getElementById('calculated');
+	const base = document.getElementById('today');
+	const Minute  = document.getElementById('Minute');
+	const Hour  = document.getElementById('Hour');
+	
+	//const date = new Date(base.value);
+	//console.log(Hour.value);
+	var date = moment(base.value).add(Hour.value, 'hours').toDate();
+	var date = moment(date).add(Minute.value, 'minutes').toDate();
+	//console.log(base.value);
+	//console.log(date);
+	// Set the date
+	date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+	//date.setHours(date.getHours()+Hour);
+	field.value = date.toISOString().slice(0,16);
+}
+
 function calculateWardensNeeded(totalSpaces, avgCrackedDrops) {
     console.log('avgCrackedDrops 1: ', avgCrackedDrops)
     const chgDismantleRatePerWarden = "TBD";
@@ -536,6 +555,7 @@ const fetchBigTimePrice = () => {
 // Function to update the UTC clock every second
 const updateUTCClock = () => {
   const utcClockElement = document.getElementById('utcClock');
+  
   if (utcClockElement) {
     const now = new Date();
     const utcYear = now.getUTCFullYear();
@@ -549,9 +569,22 @@ const updateUTCClock = () => {
   }
 };
 
+const updateNow = () => {
+	const field = document.getElementById('today');
+  const date = new Date();
+  // Set the date
+  date.setMinutes(date.getMinutes() - date.getTimezoneOffset());
+	field.value = date.toISOString().slice(0,16);
+};
+
+
+
+
 // Initialize the UTC clock update interval
 window.addEventListener('load', () => {
   setInterval(updateUTCClock, 1000); // Update the UTC clock every second
+  setInterval(updateNow, 300000); // Update the UTC clock every second
+  
   // Add event listener for the address copy links
   document.querySelectorAll('.copy-address').forEach(link => {
     link.addEventListener('click', function(event) {
@@ -632,9 +665,21 @@ function initTabEventListeners() {
   });
 }
 
+function initButtonEventListeners() {
+  console.log('initButtonEventListeners')
+  const tabButtons = document.querySelectorAll('.time-button');
+  tabButtons.forEach(button => {
+    button.addEventListener('click', function(event) {
+      console.log('Buttons click listener')
+      calcualte_time();
+    });
+  });
+}
+
 // Initialize the popup when it is opened
 document.addEventListener('DOMContentLoaded', () => {
   initTabEventListeners(); // Initialize tab event listeners
+  initButtonEventListeners();
   fetchBigTimePrice(); // Fetch and display the BigTime token price
   initPopup(); // Initialize the popup without refreshing data
   updateLeaderboardLink(); // Update the leaderboard link
@@ -642,9 +687,10 @@ document.addEventListener('DOMContentLoaded', () => {
   updateCountdown(); // Update the countdown after a 1 second delay
   setInterval(updateCountdown, 60000); // Update the countdown every minute
   updateUTCClock(); // Update the UTC clock
-  setInterval(updateUTCClock, 1000); // Update the UTC clock every second
+  updateNow();
   // Set the default tab open (if you want to show the first tab content by default)
   document.querySelector('.tab-button').click();
+  document.querySelector('.time-button').click();
 });
 
 // Removed duplicate function declaration
