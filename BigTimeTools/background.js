@@ -79,14 +79,14 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
     if (request.data === "space") {
       fetchData();
     } else if (request.data === "timeWarden") {
-      fetchTimeWardenTotalItems();
+      //fetchTimeWardenTotalItems();
     }
     sendResponse({status: 'success'});
   }
 });
 
 fetchData();
-fetchTimeWardenTotalItems();
+//fetchTimeWardenTotalItems();
 
 chrome.action.onClicked.addListener((tab) => {
   chrome.tabs.create({

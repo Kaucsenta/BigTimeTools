@@ -50,57 +50,15 @@ document.addEventListener('DOMContentLoaded', function() {
             localStorage.setItem('bigTimePriceUSD', bigTimePriceUSD);
         })
         .catch(error => console.error('Error fetching big-time price:', error));
-
-    fetch('https://api.openloot.com/v2/market/premium-currencies')
+		
+	fetch('https://api.coingecko.com/api/v3/simple/price?ids=open-loot&vs_currencies=USD')
         .then(response => response.json())
-        .then(data => {
-            const tableBody = document.getElementById('currency-table').getElementsByTagName('tbody')[0];
-            const fetchStatsPromises = [];
-            data.items.forEach(item => {
-                fetchStatsPromises.push(
-                    fetch(`https://api.openloot.com/v2/market/premium-currencies/${item.id}/stats`)
-                        .then(response => response.json())
-                        .then(statsData => {
-                            // Convert lowestPricePerStack to an integer representing cents
-                            const priceInCents = Math.round(statsData.lowestPricePerStack * 100);
-                            // Special handling for Time Crystals
-                            if (item.id === 'a98b86d8-ed8f-4e50-a223-e3a19191445b') {
-                                const timeCrystalsPrice = TIME_CRYSTALS_PRICE;
-                                return { id: item.id, name: item.name, lowestPricePerStack: Math.round(timeCrystalsPrice) };
-                            }
-                            let refineCostBasedOnRefineCost = calculateRefineCostBasedOnPurchase(item, bigTimePriceUSD);
-                            refineCostBasedOnRefineCost = refineCostBasedOnRefineCost || { cost: null, formattedCost: 'N/A' };
-                            return {
-                                id: item.id,
-                                name: item.name,
-                                icon: item.icon,
-                                stackSize: item.stackSize,
-                                status: item.status,
-                                sellable: item.sellable,
-                                tradeable: item.tradeable,
-                                maxStacksPerPurchase: item.maxStacksPerPurchase,
-                                maxSellPricePerStack: item.maxSellPricePerStack,
-                                maxStacksUserCanListForSell: item.maxStacksUserCanListForSell,
-                                lowestPricePerStack: priceInCents,
-                                totalCurrencyForSale: statsData.totalCurrencyForSale,
-                                createdAt: item.createdAt,
-                                updatedAt: item.updatedAt,
-                                lowestPrices: statsData.lowestPrices
-                            };
-                        })
-                );
-            });
-            Promise.all(fetchStatsPromises).then(results => {
-                results.forEach(result => {
-                    if (result.id && result.id !== 'undefined') {
-                        saveTableDataToLocalStorage(result);
-                    }
-                });
-                displayTableFromLocalStorage();
-                addBigTimePriceRow(JSON.parse(localStorage.getItem('bigTimePriceUSD')));
-            });
+        .then(priceData => {
+            OLPriceUSD = priceData['open-loot'].usd;
+            localStorage.setItem('OLPriceUSD', OLPriceUSD);
         })
-        .catch(error => console.error('Error fetching currency data:', error));
+        .catch(error => console.error('Error fetching big-time price:', error));
+
 });
 // Function to save the fetched currency data to local storage
 function saveTableDataToLocalStorage(data) {

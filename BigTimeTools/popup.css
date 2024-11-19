@@ -175,7 +175,23 @@ button:hover {
     text-align: center;
     font-weight: bold;
 }
+#openLootPrice {
+  font-size: 20px;
+  font-weight: bold;
+}
 
+#openLootPriceAmount {
+    font-size: 20px;
+    text-align: center;
+    font-weight: bold;
+    color: #aeaab6;
+}
+
+#openLootPriceChange {
+    font-size: 20px;
+    text-align: center;
+    font-weight: bold;
+}
 #utcClock {
   color: #999;
 }

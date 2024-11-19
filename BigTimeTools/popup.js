@@ -540,15 +540,28 @@ const fetchBigTimePrice = () => {
       document.getElementById('bigTimePriceChange').textContent = `${priceChange.toFixed(2)}%`;
       const priceChangeDiv = document.createElement('div');
       document.getElementById('bigTimePriceChange').style.color = priceChange >= 0 ? 'green' : 'red';
-    chrome.storage.local.get('spaceData', function(data) {
-      if (data.spaceData) {
-        // updatePotentialRevenue(data.spaceData);
-      }
-    });
     })
     .catch(error => {
       console.error('Error fetching BigTime price:', error);
       document.getElementById('bigTimePrice').textContent = 'BIGTIME: Error fetching price';
+    });
+}
+const fetchOpenlootPrice = () => {
+  const url = 'https://api.coingecko.com/api/v3/simple/price?ids=open-loot&vs_currencies=USD&include_24hr_change=true';
+  fetch(url)
+    .then(response => response.json())
+    .then(data => {
+	  const price = data['open-loot'].usd;
+      const priceChange = data['open-loot'].usd_24h_change;
+ 	  document.getElementById('openLootPrice').innerHTML = `<a href="https://www.coingecko.com/en/coins/open-loot" target="_blank">$OL</a>`;
+	  document.getElementById('openLootPriceAmount').textContent = `$${price}`;
+      document.getElementById('openLootPriceChange').textContent = `${priceChange.toFixed(2)}%`;
+      const priceChangeDiv = document.createElement('div');
+      document.getElementById('openLootPriceChange').style.color = priceChange >= 0 ? 'green' : 'red';
+    })
+    .catch(error => {
+      console.error('Error fetching OpenLoot price:', error);
+      document.getElementById('openLootPrice').textContent = 'Openloot: Error fetching price';
     });
 }
 
@@ -681,6 +694,7 @@ document.addEventListener('DOMContentLoaded', () => {
   initTabEventListeners(); // Initialize tab event listeners
   initButtonEventListeners();
   fetchBigTimePrice(); // Fetch and display the BigTime token price
+  fetchOpenlootPrice();
   initPopup(); // Initialize the popup without refreshing data
   updateLeaderboardLink(); // Update the leaderboard link
   addEventListeners(); // Add event listeners for buttons and inputs
